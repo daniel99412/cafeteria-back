@@ -12,10 +12,11 @@ async function findAll() {
                 return;
             }
 
+            
             if (qr.length > 0) {
                 await qr.reduce(async (promise, p) => {
                     await promise;
-                    products.push(await {...convertToSend(p)});
+                    products.push(await convertToSend(p));
                 }, Promise.resolve());
             }
 
@@ -68,8 +69,8 @@ async function update(id, product) {
             product.price ? productInDb.price = product.price : productInDb.price = productInDb.price;
             product.description ? productInDb.description = product.description : productInDb.description = productInDb.description;
 
-            if ('status' in product) {
-                product.status === 1 ? productInDb.isActive = true : productInDb.isActive = false;
+            if ('isActive' in product) {
+                product.isActive ? productInDb.isActive = true : productInDb.isActive = false;
             }
 
             if ('amountAvailable' in product) {
