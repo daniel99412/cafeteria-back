@@ -52,6 +52,7 @@ app.use(require('./routes/index.routes.js'));
 app.use('/api/employee', require('./routes/employee.routes'));
 app.use('/api/product', require('./routes/product.routes'));
 app.use('/api/ingredient', require('./routes/ingredient.routes'));
+app.use('/api/supplier', require('./routes/supplier.routes'));
 
 // Public
 
