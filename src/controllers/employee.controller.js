@@ -34,9 +34,18 @@ async function update(req, res) {
     });
 }
 
+async function login(req, res) {
+    employeeService.login(req.body.id, req.body.rfc).then(resp => {
+        res.send(resp);
+    }).catch(reject => {
+        res.send(reject);
+    });
+}
+
 module.exports = {
     findAll,
     findById,
     insert,
-    update
+    update,
+    login
 }

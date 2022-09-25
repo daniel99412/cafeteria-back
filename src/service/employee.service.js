@@ -16,7 +16,7 @@ async function findAll() {
             if (qr.length > 0) {
                 await qr.reduce(async (promise, e) => {
                     await promise;
-                    employees.push(await { ...convertToSend(e) });
+                    employees.push(await convertToSend(e));
                 }, Promise.resolve());
             }
 
@@ -72,8 +72,8 @@ async function update(id, employee) {
             employee.telephone ? employeeInDb.telephone = employee.telephone : employeeInDb.telephone = employeeInDb.telephone;
             employee.position ? employeeInDb.position = employee.position : employeeInDb.position = employeeInDb.position;
             
-            if ('status' in employee) {
-                employee.status === 1 ? employeeInDb.isActive = true : employeeInDb.isActive = false;
+            if ('isActive' in employee) {
+                employee.isActive ? employeeInDb.isActive = true : employeeInDb.isActive = false;
             }
 
             db.query(`update empleados set nombre = '${employeeInDb.name}', rfc = '${employeeInDb.rfc}', fecha_nacimiento = '${moment(employeeInDb.birthdate).format('YYYY-MM-DD')}', domicilio = '${employeeInDb.address}', telefono = '${employeeInDb.telephone}', puesto = '${employeeInDb.position}', estado = ${employeeInDb.isActive} where idEmpleado = ${id}`,
@@ -88,6 +88,26 @@ async function update(id, employee) {
         }).catch(rej => {
             reject(rej);
             return;
+        });
+    });
+}
+
+async function login(id, rfc) {
+    return new Promise(async (resolve, reject) => {
+        findById(id).then(async resp => {
+            var employee = resp;
+
+            if (employee.isActive) {
+                if (employee.rfc === rfc) {
+                    resolve({ status: 202, employee});
+                } else {
+                    reject({ status: 404, message: 'El RFC no es correto' });
+                }
+            } else {
+                reject({ status: 404, message: 'Empleado inactivo, contacta con el administrador' });
+            }
+        }).catch(rej => {
+            reject({ status: 404, message: 'El código no es correcto' });
         });
     });
 }
@@ -134,6 +154,7 @@ module.exports = {
     findById,
     insert,
     update,
+    login,
     convertToStore,
     convertToSend
 }
