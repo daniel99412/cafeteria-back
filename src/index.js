@@ -4,6 +4,7 @@ const https = require('https');
 const http = require('http');
 const fs = require('fs');
 const morgan = require('morgan');
+const logger = require('./utils/logger');
 
 // Initialiations
 const app = express();
@@ -13,7 +14,7 @@ app.set('HTTPS_PORT', process.env.HTTPS_PORT || 8443);
 app.set('HTTP_PORT', process.env.HTTP_PORT || 8080);
 
 // Middlewares
-app.use(morgan('dev'));
+app.use(morgan);
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT']
@@ -55,14 +56,18 @@ app.use('/api/ingredient', require('./routes/ingredient.routes'));
 app.use('/api/supplier', require('./routes/supplier.routes'));
 
 // Public
+// logger.add(new transports.Console({
+//     format: format.simple(),
+// }));
+
 
 // Starting servers
 httpsServer.listen(app.get('HTTPS_PORT'), () => {
-    console.info('HTTPS Server status -> UP!');
-    console.info(`Listening on port   -> ${app.get('HTTPS_PORT')}`);
+    logger.info('HTTPS Server status -> UP!');
+    logger.info(`Listening on port: ${app.get('HTTPS_PORT')}`);
 });
 
 httpServer.listen(app.get('HTTP_PORT'), () => {
-    console.info('HTTP Server status  -> UP!');
-    console.info(`Listening on port   -> ${app.get('HTTP_PORT')}`);
+    logger.info('HTTP Server status  -> UP!');
+    logger.info(`Listening on port: ${app.get('HTTP_PORT')}`);
 });
