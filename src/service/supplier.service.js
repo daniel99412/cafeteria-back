@@ -69,7 +69,7 @@ async function update(id, supplier) {
             supplier.telephone ? supplierInDb.telephone = supplier.telephone : supplierInDb.telephone = supplierInDb.telephone;
             supplier.rfc ? supplierInDb.rfc = supplier.rfc : supplierInDb.rfc = supplierInDb.rfc;
 
-            db.query(`update empleados set nombre = '${supplierInDb.name}', domicilio = '${supplierInDb.address}', telefono = '${supplierInDb.telephone}', rfc = '${supplierInDb.rfc}' where id = ${supplierInDb.id}`,
+            db.query(`update proveedores set nombre = '${supplierInDb.name}', domicilio = '${supplierInDb.address}', telefono = '${supplierInDb.telephone}', rfc = '${supplierInDb.rfc}' where idProveedor = ${supplierInDb.id}`,
                 async (err, resp) => {
                     if (err) {
                         reject({ status: 500, message: err });
