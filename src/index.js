@@ -3,7 +3,7 @@ const cors = require('cors');
 const https = require('https');
 const http = require('http');
 const fs = require('fs');
-const morgan = require('morgan');
+const morganMiddleware = require('./middlewares/morgan.middleware');
 const logger = require('./utils/logger');
 
 // Initialiations
@@ -14,7 +14,7 @@ app.set('HTTPS_PORT', process.env.HTTPS_PORT || 8443);
 app.set('HTTP_PORT', process.env.HTTP_PORT || 8080);
 
 // Middlewares
-app.use(morgan);
+app.use(morganMiddleware);
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT']
@@ -55,11 +55,17 @@ app.use('/api/product', require('./routes/product.routes'));
 app.use('/api/ingredient', require('./routes/ingredient.routes'));
 app.use('/api/supplier', require('./routes/supplier.routes'));
 
-// Public
-// logger.add(new transports.Console({
-//     format: format.simple(),
-// }));
+app.use('/logger', (_, res) => {
+    logger.error("This is an error log");
+    logger.warn("This is a warn log");
+    logger.info("This is a info log");
+    logger.http("This is a http log");
+    logger.debug("This is a debug log");
 
+    res.send("Hello world");
+})
+
+// Public
 
 // Starting servers
 httpsServer.listen(app.get('HTTPS_PORT'), () => {
