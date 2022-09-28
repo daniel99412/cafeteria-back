@@ -42,8 +42,8 @@ app.use((req, res, next) => {
 
 // Config HTTPS and HTTP servers
 const httpsServer = https.createServer({
-    key: fs.readFileSync(__dirname + '/ssl/server.key'),
-    cert: fs.readFileSync(__dirname + '/ssl/server.crt')
+    cert: fs.readFileSync(__dirname + '/ssl/server.crt'),
+    key: fs.readFileSync(__dirname + '/ssl/server.key')
 }, app);
 
 const httpServer = http.createServer(app);
@@ -54,6 +54,7 @@ app.use('/api/employee', require('./routes/employee.routes'));
 app.use('/api/product', require('./routes/product.routes'));
 app.use('/api/ingredient', require('./routes/ingredient.routes'));
 app.use('/api/supplier', require('./routes/supplier.routes'));
+app.use('/api/iva', require('./routes/iva.routes'));
 
 app.use('/logger', (_, res) => {
     logger.error("This is an error log");
