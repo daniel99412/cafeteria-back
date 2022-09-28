@@ -1,7 +1,6 @@
 const Iva = require('../models/iva');
 const db = require('../database');
 const moment = require('moment');
-const { update } = require('lodash');
 
 async function findAll() {
     return new Promise(async (resolve, reject) => {

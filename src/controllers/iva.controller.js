@@ -17,7 +17,7 @@ async function findById(req, res) {
 }
 
 async function insert(req, res) {
-    const ivaToStore = ivaService.convertToStore(req.body);
+    const ivaToStore = await ivaService.convertToStore(req.body);
 
     ivaService.insert(ivaToStore).then(resp => {
         res.send(resp);
