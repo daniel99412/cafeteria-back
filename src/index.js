@@ -56,16 +56,6 @@ app.use('/api/ingredient', require('./routes/ingredient.routes'));
 app.use('/api/supplier', require('./routes/supplier.routes'));
 app.use('/api/iva', require('./routes/iva.routes'));
 
-app.use('/logger', (_, res) => {
-    logger.error("This is an error log");
-    logger.warn("This is a warn log");
-    logger.info("This is a info log");
-    logger.http("This is a http log");
-    logger.debug("This is a debug log");
-
-    res.send("Hello world");
-})
-
 // Public
 
 // Starting servers
