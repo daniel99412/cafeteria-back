@@ -36,7 +36,7 @@ async function findById(id) {
             }
 
             if (qr.length > 0) {
-                var product = await convertToSend(qr[0]);
+                const product = await convertToSend(qr[0]);
 
                 resolve(product);
             } else {
