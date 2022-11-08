@@ -1,6 +1,7 @@
 const Sale = require('../models/sale');
 const detailSaleService = require('./detailSale.service');
 const employeeService = require('./employee.service');
+const productService = require('./product.service');
 const db = require('../database');
 
 async function findAll() {

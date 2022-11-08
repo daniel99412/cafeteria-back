@@ -132,5 +132,5 @@ module.exports = {
     insert,
     update,
     convertToStore,
-    convertToSend
+    convertToSend,
 }
