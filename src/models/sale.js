@@ -1,4 +1,3 @@
-const DetailSale = require("./detailSale");
 const Employee = require("./employee");
 
 var Sale = {

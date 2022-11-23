@@ -48,8 +48,7 @@ const httpsServer = https.createServer({
 
 const httpServer = http.createServer(app);
 
-// Routes
-app.use(require('./routes/index.routes.js'));
+// Routes10:36 AM10:36 AM10:36 AM
 app.use('/api/employee', require('./routes/employee.routes'));
 app.use('/api/product', require('./routes/product.routes'));
 app.use('/api/ingredient', require('./routes/ingredient.routes'));
@@ -58,6 +57,7 @@ app.use('/api/iva', require('./routes/iva.routes'));
 app.use('/api/sale', require('./routes/sale.routes'));
 
 // Public
+app.use(require('./routes/index.routes.js'));
 
 // Starting servers
 httpsServer.listen(app.get('HTTPS_PORT'), () => {
