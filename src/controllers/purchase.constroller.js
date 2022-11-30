@@ -1,4 +1,3 @@
-const { detailsPurchase } = require('../models/purchase');
 const purchaseService = require('../service/purchase.service');
 
 async function findAll(req, res) {

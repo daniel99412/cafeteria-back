@@ -56,6 +56,7 @@ app.use('/api/supplier', require('./routes/supplier.routes'));
 app.use('/api/iva', require('./routes/iva.routes'));
 app.use('/api/sale', require('./routes/sale.routes'));
 app.use('/api/purchase', require('./routes/purchase.routes'));
+app.use('/api/product-ingredient', require('./routes/productIngredient.routes'));
 
 // Public
 app.use(require('./routes/index.routes.js'));

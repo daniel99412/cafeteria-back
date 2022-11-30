@@ -69,7 +69,7 @@ async function insert(purchase, details) {
                     }
                 }).catch(rej => {
                     if (rej.status === 500) {
-                        reject({ status: 500, message: rej.err });
+                        reject({ status: 500, message: rej.message });
                     }
                 });
             }

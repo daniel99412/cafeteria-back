@@ -18,8 +18,12 @@ async function findById(req, res) {
 
 async function insert(req, res) {
     const productToStore = await productService.convertToStore(req.body);
+    let productIngredient = [];
+    if (req.body.productIngredient) {
+        productIngredient = req.body.productIngredient;
+    }
 
-    productService.insert(productToStore).then(resp => {
+    productService.insert(productToStore, productIngredient).then(resp => {
         res.send(resp);
     }).catch(reject => {
         res.send(reject);

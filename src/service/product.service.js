@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const productIngredientService = require('../service/productIngredient.service');
 const db = require('../database');
 
 async function findAll() {
@@ -47,15 +48,38 @@ async function findById(id) {
     });
 }
 
-async function insert(product) {
+async function insert(product, productIngredient) {
     return new Promise(async (resolve, reject) => {
-        db.query(`insert into productos (nombre, precio, cantidad_disponible, descripcion) values (?)`, [product], async (err, resp) => {
+        db.query(`insert into productos (nombre, precio, cantidad_disponible, descripcion) values (?)`, [product], async (err, qr) => {
             if (err) {
                 reject({ status: 500, message: err });
                 return;
             }
+            
+            if (qr) {
+                if (productIngredient.length === 0) {
+                    resolve({ status: 200, message: 'Producto creado' })
+                } else {
+                    const productsIngredients = [];
 
-            if (resp) resolve({ status: 200, message: 'Producto creado' });
+                    await productIngredient.reduce(async (promise, pi) => {
+                        await promise;
+                        productsIngredients.push(await productIngredientService.convertToStore(pi, qr.insertId));
+                    }, Promise.resolve());
+
+                    console.log(productsIngredients);
+
+                    productIngredientService.insertAll(productsIngredients).then(resp => {
+                        if (resp.status === 200) {
+                            resolve({ status: 200, message: 'Producto creado' });
+                        }
+                    }).catch(rej => {
+                        if (rej.status === 500) {
+                            reject({ status: 500, message: rej.message });
+                        }
+                    });
+                }
+            }
         });
     });
 }
