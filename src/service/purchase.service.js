@@ -5,22 +5,27 @@ const db = require('../database');
 const { reject } = require('lodash');
 
 async function findAll() {
-    const purchase = [];
-    const QUERY = 'select * from compras';
-
-    db.query(QUERY, async (err, qr) => {
-        if (err) {
-            reject({ status: 500, message: err });
-            return;
-        }
-
-        if (qr.length > 0) {
-            await qr.reduce(async (promise, p) => {
-                await promise;
-                purchase.push(await convertToSend(p));
-            }, Promise.resolve());
-        }
-    });
+    return new Promise(async (resolve, reject) => {
+        const purchases = [];
+        const QUERY = 'select * from compras';
+    
+        db.query(QUERY, async (err, qr) => {
+            if (err) {
+                reject({ status: 500, message: err });
+                return;
+            }
+    
+            if (qr.length > 0) {
+                await qr.reduce(async (promise, p) => {
+                    await promise;
+                    purchases.push(await convertToSend(p));
+                }, Promise.resolve());
+    
+            }
+            
+            resolve(purchases);
+        });
+    })
 }
 
 async function findById(id) {

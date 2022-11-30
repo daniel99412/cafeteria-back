@@ -18,10 +18,10 @@ async function findById(req, res) {
 }
 
 async function insert(req, res) {
-    detailsPurchase = req.body.detailsPurchase;
+    const detailsPurchase = req.body.detailsPurchase;
     const purchaseToStore = await purchaseService.convertToStore(req.body.purchase);
 
-    purchaseService.insert(purchaseToStore, detailsPurchase).then(resp => {
+    await purchaseService.insert(purchaseToStore, detailsPurchase).then(resp => {
         res.send(resp);
     }).catch(reject => {
         res.send(reject);
